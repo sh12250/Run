@@ -15,7 +15,6 @@ public class PlayerController : MonoBehaviour
     private Animator animator = default;
     private AudioSource playerAudio = default;
 
-    // Start is called before the first frame update
     void Start()
     {
         playerRigid = GetComponent<Rigidbody2D>();
@@ -27,7 +26,6 @@ public class PlayerController : MonoBehaviour
         GFunc.Assert(playerAudio != null);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (isDead) { return; }
@@ -41,15 +39,16 @@ public class PlayerController : MonoBehaviour
         }
         else if(Input.GetMouseButtonDown(0) && jumpCount == 1 && jumpCount < 2)
         {
+            jumpCount += 1;
             playerRigid.velocity = Vector3.zero;
             playerRigid.AddForce(new Vector2(0, jumpForce));
             animator.SetTrigger("IsDoubleJump");
             playerAudio.Play();
         }
-        else if (Input.GetMouseButtonDown(0) && playerRigid.velocity.y > 0)
-        {
-            playerRigid.velocity = playerRigid.velocity * 0.5f;
-        }
+        //else if (Input.GetMouseButtonDown(0) && playerRigid.velocity.y > 0)
+        //{
+        //    playerRigid.velocity = playerRigid.velocity * 0.5f;
+        //}
 
         animator.SetBool("IsGround", isGrounded);
     }
@@ -62,6 +61,8 @@ public class PlayerController : MonoBehaviour
 
         playerRigid.velocity = Vector2.zero;
         isDead = true;
+
+        GameManager.instance.OnPlayerDead();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -71,11 +72,6 @@ public class PlayerController : MonoBehaviour
             Die();
         }
     }
-
-    //private void OnTriggerExit2D(Collider2D collision)
-    //{
-    //    isGrounded = false;
-    //}
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

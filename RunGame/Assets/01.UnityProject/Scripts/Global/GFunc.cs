@@ -16,6 +16,14 @@ public static partial class GFunc
     }
 
     [System.Diagnostics.Conditional("DEBUG_MODE")]
+    public static void LogWarning(object message)
+    {
+#if DEBUG_MODE
+        Debug.LogWarning(message);
+#endif
+    }
+
+    [System.Diagnostics.Conditional("DEBUG_MODE")]
     public static void Assert(bool condition)
     {
 #if DEBUG_MODE
@@ -43,11 +51,42 @@ public static partial class GFunc
         SceneManager.LoadScene(sceneName);
     }
 
+    //! 현재 씬의 이름을 리턴한다
+    public static string GetActiveSceneName()
+    {
+        return SceneManager.GetActiveScene().name;
+    }
+
     //! e두 벡터를 더한다
     public static Vector2 AddVectors(this Vector3 origin, Vector2 addVector)
     {
         Vector2 result = new Vector2(origin.x, origin.y);
         result += addVector;
         return result;
+    }
+
+    //! 컴포넌트가 존재하는지 여부를 체크하는 함수
+    public static bool IsValid<T>(this T target) where T : Component
+    {
+        if (target == null || target == default)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    public static bool IsValid<T>(this List<T> target)
+    {
+        bool isInvalid = (target == null || target == default);
+        isInvalid = isInvalid || target.Count == 0;
+
+        if (isInvalid)
+        {
+            return false;
+        }
+
+        return true;
     }
 }
