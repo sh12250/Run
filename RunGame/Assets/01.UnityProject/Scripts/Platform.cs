@@ -8,8 +8,6 @@ public class Platform : MonoBehaviour
 
     private bool stepped = false;
 
-
-
     private void OnEnable()
     {
         stepped = false;

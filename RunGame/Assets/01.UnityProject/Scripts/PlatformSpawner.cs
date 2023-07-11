@@ -15,7 +15,7 @@ public class PlatformSpawner : MonoBehaviour
     public float yMax = 1.5f;
     private float xPos = 15f;
 
-    private GameObject[] platforms;
+    public GameObject[] platforms;
     private int currentIndex = 0;
 
     private Vector2 poolPosition = new Vector2(0, 25f);
@@ -51,6 +51,10 @@ public class PlatformSpawner : MonoBehaviour
             platforms[currentIndex].SetActive(true);
 
             platforms[currentIndex].transform.position = new Vector2(xPos, yPos);
+
+            FoodSpawner fSpawner = FindObjectOfType<FoodSpawner>();
+            fSpawner.SpawnFood(platforms[currentIndex]);
+
             currentIndex += 1;
 
             if(currentIndex >= count)
