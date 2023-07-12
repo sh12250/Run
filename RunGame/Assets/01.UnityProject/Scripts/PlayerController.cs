@@ -30,14 +30,40 @@ public class PlayerController : MonoBehaviour
     {
         if (isDead) { return; }
 
-        if (Input.GetMouseButtonDown(0) && jumpCount == 0 && jumpCount < 2)
+        // Legacy
+        //if (Input.GetMouseButtonDown(0) && jumpCount == 0 && jumpCount < 2)
+        //{
+        //    jumpCount += 1;
+        //    playerRigid.velocity = Vector3.zero;
+        //    playerRigid.AddForce(new Vector2(0, jumpForce));
+        //    playerAudio.Play();
+        //}
+        //else if(Input.GetMouseButtonDown(0) && jumpCount == 1 && jumpCount < 2)
+        //{
+        //    jumpCount += 1;
+        //    playerRigid.velocity = Vector3.zero;
+        //    playerRigid.AddForce(new Vector2(0, jumpForce));
+        //    animator.SetTrigger("IsDoubleJump");
+        //    playerAudio.Play();
+        //}
+        //else if (Input.GetMouseButtonDown(0) && playerRigid.velocity.y > 0)
+        //{
+        //    playerRigid.velocity = playerRigid.velocity * 0.5f;
+        //}
+
+        animator.SetBool("IsGround", isGrounded);
+    }
+
+    public void Jump()
+    {
+        if (jumpCount == 0 && jumpCount < 2)
         {
             jumpCount += 1;
             playerRigid.velocity = Vector3.zero;
             playerRigid.AddForce(new Vector2(0, jumpForce));
             playerAudio.Play();
         }
-        else if(Input.GetMouseButtonDown(0) && jumpCount == 1 && jumpCount < 2)
+        else if (jumpCount == 1 && jumpCount < 2)
         {
             jumpCount += 1;
             playerRigid.velocity = Vector3.zero;
@@ -45,12 +71,6 @@ public class PlayerController : MonoBehaviour
             animator.SetTrigger("IsDoubleJump");
             playerAudio.Play();
         }
-        //else if (Input.GetMouseButtonDown(0) && playerRigid.velocity.y > 0)
-        //{
-        //    playerRigid.velocity = playerRigid.velocity * 0.5f;
-        //}
-
-        animator.SetBool("IsGround", isGrounded);
     }
 
     private void Die()
